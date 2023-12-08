@@ -1,0 +1,21 @@
+{
+  "images" : [
+    {
+      "filename" : "flat-woman-face-with-skin-diseases-rashes-acne-dermatology-problems-dermatologist-cosmetology-doctor-with-magnifier-glass-examining-huge-female-head-with-facial-dermatitis-redness-pimples_88138-877.jp.png",
+      "idiom" : "universal",
+      "scale" : "1x"
+    },
+    {
+      "idiom" : "universal",
+      "scale" : "2x"
+    },
+    {
+      "idiom" : "universal",
+      "scale" : "3x"
+    }
+  ],
+  "info" : {
+    "author" : "xcode",
+    "version" : 1
+  }
+}
