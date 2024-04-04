@@ -66,6 +66,9 @@ struct SymptomsView: View {
                             CustomBoxBodyParts(image: Image("Shoulder"), text: Text("Shoulder"), isSelected: selectedBodyPart == "Shoulder") {
                                 selectedBodyPart = "Shoulder"
                             }
+                            CustomBoxBodyParts(image: Image(""), text: Text("Other"), isSelected: selectedBodyPart == "Other") {
+                                selectedBodyPart = "Other"
+                            }
                         }
                     }
                     .padding(.top, 5)

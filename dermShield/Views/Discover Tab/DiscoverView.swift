@@ -6,11 +6,21 @@
 //
 
 import SwiftUI
+import FirebaseAuth
+import FirebaseDatabaseInternal
+import FirebaseStorage
 
 struct DiscoverView: View {
+    
+    @ObservedObject private var viewModelCases = AllCasesViewModel()
+    @ObservedObject private var viewModelMyDoctors = MyDoctorsViewModel()
+    
     @State private var searchElement: String = ""
     @State private var isEditProfileVisible = false
     @State private var isPopoverPresented = false
+    
+    @State private var showAllCases = false // Track whether to show all cases
+    @State private var showAllMyDoctors = false
     
     var tipDiagnose = diagnoseTip()
     var tipIdentify = identifyTip()
@@ -22,10 +32,7 @@ struct DiscoverView: View {
             NavigationView{
                 ScrollView {
                     VStack{
-                        
                         VStack{
-                            
-                            
                             Text("Procedure")
                                 .font(.callout)
                                 .fontWeight(.light)
@@ -37,8 +44,7 @@ struct DiscoverView: View {
                                         .font(.title3)
                                         .foregroundColor(Color("PrimaryColor"))
                                 }))
-                            
-                            
+
                             HStack {
                                 
                                 ZStack{
@@ -94,11 +100,15 @@ struct DiscoverView: View {
                                     .fontWeight(.light)
                                     .frame(maxWidth: 340, alignment: .leading)
                                 
-                                HStack{
-                                    Text("See more")
-                                        .font(.callout)
-                                        .fontWeight(.light)
-                                    Image(systemName: "chevron.right")
+                                Button(action: {
+                                    showAllCases.toggle() // Toggle between showing all cases or only the recent one
+                                }) {
+                                    HStack {
+                                        Text(showAllCases ? "See less" : "See more") // Change text based on state
+                                            .font(.callout)
+                                            .fontWeight(.light)
+                                        Image(systemName: showAllCases ? "chevron.up" : "chevron.down") // Change icon based on state
+                                    }
                                 }
                                 .foregroundColor(Color("PrimaryColor"))
                             }
@@ -106,51 +116,18 @@ struct DiscoverView: View {
                             .padding(.leading, 35)
                             .padding(.top)
                             
-                            VStack{
-                                HStack {
-                                    Image("LowRisk")
-                                        .cornerRadius(10)
-                                        .padding()
-                                    Spacer()
-                                    VStack {
-                                        HStack{
-                                            Text("Case id: 1043565697854")
-                                                .font(.callout)
-                                                .fontWeight(.semibold)
-                                            Spacer()
+                            ScrollView() {
+                                LazyVStack {
+                                    ForEach(viewModelCases.users.prefix(showAllCases ? 3 : 1), id: \.self) { caseDetail in // Prefix to limit the number of cases
+                                        NavigationLink(destination: CaseDetailsView(caseInfo: caseDetail)){
+                                            customRiskBox(caseDetails: caseDetail)
+                                                .padding(.bottom, 5)
+                                                .padding(.top, 5)
+                                                .foregroundColor(.black)
                                         }
-                                        
-                                        HStack{
-                                            Text("Comedone")
-                                                .font(.callout)
-                                            Spacer()
-                                        }
-                                        
-                                        HStack{
-                                            Image("greenCircle")
-                                            Text("Low risk")
-                                                .font(.caption)
-                                            Spacer()
-                                        }
-                                        
-                                        HStack{
-                                            Image(systemName: "calendar")
-                                            Text("27/02/2024")
-                                                .font(.caption)
-                                            Spacer()
-                                        }
-                                        
                                     }
                                 }
-                                .background(.green.opacity(0.1))
-                                .cornerRadius(10)
-                                .overlay(
-                                    RoundedRectangle(cornerRadius: 10) // Adjust corner radius as needed
-                                        .stroke(Color.green, lineWidth: 1) // Adjust border color and width
-                                )
-                                .padding([.leading, .trailing])
                             }
-                            
                             
                             
                             HStack{
@@ -161,11 +138,15 @@ struct DiscoverView: View {
                                 
                                 
                                 
-                                HStack{
-                                    Text("See more")
-                                        .font(.callout)
-                                        .fontWeight(.light)
-                                    Image(systemName: "chevron.right")
+                                Button(action: {
+                                    showAllMyDoctors.toggle() // Toggle between showing all cases or only the recent one
+                                }) {
+                                    HStack {
+                                        Text(showAllMyDoctors ? "See less" : "See more") // Change text based on state
+                                            .font(.callout)
+                                            .fontWeight(.light)
+                                        Image(systemName: showAllMyDoctors ? "chevron.up" : "chevron.down") // Change icon based on state
+                                    }
                                 }
                                 .foregroundColor(Color("PrimaryColor"))
                             }
@@ -173,35 +154,24 @@ struct DiscoverView: View {
                             .padding(.leading, 35)
                             .padding(.top)
                             
-                            ZStack{
-                                RoundedRectangle(cornerRadius: 10)
-                                    .foregroundColor(.white)
-                                    .shadow(color: Color.gray.opacity(0.5), radius: 5, x: 0, y: 2)
-                                    .frame(maxHeight: 125)
-                                HStack {
-                                    Image("Doctor2") // Replace "doctorImage" with the actual image name
-                                        .font(.largeTitle)
-                                        .cornerRadius(8)
-                                        .padding([.leading, .trailing])
-                                        .padding([.leading, .trailing])
-                                    
-                                    VStack(alignment: .leading) {
-                                        Text("Dr. John Doe")
-                                            .font(.title3)
-                                            .fontWeight(.medium)
-                                            .padding(.top)
-                                        Text("Dermatologist")
-                                            .font(.callout)
-                                            .foregroundColor(.gray)
-                                        Text("VSG Potheri")
-                                            .font(.callout)
-                                            .foregroundColor(.gray)
-                                            .padding(.bottom)
+                            ScrollView() {
+                                LazyVStack {
+                                    ForEach(viewModelMyDoctors.users.indices.prefix(showAllMyDoctors ? 3 : 1), id: \.self) { i in
+                                        NavigationLink(
+                                            destination: DoctorProfileView(scanID: " ", doctor: viewModelMyDoctors.users[i]),
+                                            label: {
+                                                // Your Doctor UI view here
+                                                // Customize as needed with doctor data
+                                                DoctorCard(doctorDetails: viewModelMyDoctors.users[i])
+                                                    .padding(.bottom, 5)
+                                                    .padding(.top, 5)
+                                            }
+                                        )
+                                        .buttonStyle(PlainButtonStyle()) // To remove NavigationLink default styling
                                     }
-                                    Spacer()
                                 }
                             }
-                            .padding([.trailing, .leading, .bottom])
+                            
                             
                             
                             Text("Know more about Acne")
@@ -246,22 +216,9 @@ struct DiscoverView: View {
                     .navigationTitle("Discover")            }
             }
         }
-    }
+    }    
 }
 
-
-//struct JourneyFeaturesView: View {
-//    var body: some View {
-//        ZStack{
-//            RoundedRectangle(cornerRadius: 10)
-//                .foregroundColor(.white)
-//                .shadow(color: Color.gray.opacity(0.5), radius: 5, x: 0, y: 2)
-//            HStack {
-//
-//            }
-//        }
-//    }
-//}
 
 struct FeatureView: View {
     var symbolName: String
@@ -388,6 +345,117 @@ struct customProfileCardView : View {
             .padding([.trailing, .top, .bottom])
         }
         
+    }
+}
+
+
+class MyDoctorsViewModel: ObservableObject {
+    @Published var users = [AllDoctorUser]()
+    
+    init() {
+        fetchAllUsers()
+    }
+    
+    private func fetchAllUsers() {
+        let databaseRef = Database.database().reference().child("patients/myDoctors")
+        
+        databaseRef.observe(.value) { snapshot in
+            var doctors = [AllDoctorUser]()
+            
+            for case let childSnapshot as DataSnapshot in snapshot.children {
+                if let userData = childSnapshot.value as? [String: Any] {
+                    if let userId = userData["userId"] as? String,
+                       let name = userData["name"] as? String,
+                       let gender = userData["gender"] as? String,
+                       let age = userData["age"] as? String,
+                       let countryOfResidence = userData["countryOfResidence"] as? String,
+                       let city = userData["city"] as? String,
+                       let postCode = userData["postCode"] as? String,
+                       let about = userData["about"] as? String,
+                       let specialization = userData["specialization"] as? String,
+                       let clinic = userData["clinic"] as? String,
+                       let clinicAddress = userData["clinicAddress"] as? String,
+                       let workWeekFrom = userData["workWeekFrom"] as? String,
+                       let workWeekTo = userData["workWeekTo"] as? String,
+                       let nationalID = userData["nationalID"] as? String,
+                       let nmcNumber = userData["nmcNumber"] as? String {
+                        
+                        // Fetch image URL
+                        let storageRef = Storage.storage().reference().child("doctors/profile/\(userId)/profileImage.jpg")
+                        storageRef.downloadURL { url, error in
+                            if let error = error {
+                                print("Error downloading image: \(error)")
+                                let doctor = AllDoctorUser(
+                                    userId: userId,
+                                    name: name,
+                                    gender: gender,
+                                    age: age,
+                                    countryOfResidence: countryOfResidence,
+                                    city: city,
+                                    postCode: postCode,
+                                    about: about,
+                                    specialization: specialization,
+                                    clinic: clinic,
+                                    clinicAddress: clinicAddress,
+                                    workWeekFrom: workWeekFrom,
+                                    workWeekTo: workWeekTo,
+                                    nationalID: nationalID,
+                                    nmcNumber: nmcNumber,
+                                    imageURL: nil // Set imageURL to nil in case of error
+                                )
+                                doctors.append(doctor)
+                                self.users = doctors // Update users array after adding all doctors
+                                return
+                            }
+                            guard let url = url else {
+                                print("Error: No URL for image")
+                                let doctor = AllDoctorUser(
+                                    userId: userId,
+                                    name: name,
+                                    gender: gender,
+                                    age: age,
+                                    countryOfResidence: countryOfResidence,
+                                    city: city,
+                                    postCode: postCode,
+                                    about: about,
+                                    specialization: specialization,
+                                    clinic: clinic,
+                                    clinicAddress: clinicAddress,
+                                    workWeekFrom: workWeekFrom,
+                                    workWeekTo: workWeekTo,
+                                    nationalID: nationalID,
+                                    nmcNumber: nmcNumber,
+                                    imageURL: nil // Set imageURL to nil if URL is not available
+                                )
+                                doctors.append(doctor)
+                                self.users = doctors // Update users array after adding all doctors
+                                return
+                            }
+                            let doctor = AllDoctorUser(
+                                userId: userId,
+                                name: name,
+                                gender: gender,
+                                age: age,
+                                countryOfResidence: countryOfResidence,
+                                city: city,
+                                postCode: postCode,
+                                about: about,
+                                specialization: specialization,
+                                clinic: clinic,
+                                clinicAddress: clinicAddress,
+                                workWeekFrom: workWeekFrom,
+                                workWeekTo: workWeekTo,
+                                nationalID: nationalID,
+                                nmcNumber: nmcNumber,
+                                imageURL: url // Set imageURL property
+                            )
+                            doctors.append(doctor)
+                            self.users = doctors // Update users array after adding all doctors
+                        }
+                    }
+                }
+            }
+        }
     }
 }
 

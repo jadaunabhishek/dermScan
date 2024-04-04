@@ -13,7 +13,6 @@
 		213584222B30653900888D2F /* ProfileView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 213584212B30653900888D2F /* ProfileView.swift */; };
 		213584242B306AEA00888D2F /* CalendarView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 213584232B306AEA00888D2F /* CalendarView.swift */; };
 		213584262B307A1600888D2F /* MessageView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 213584252B307A1600888D2F /* MessageView.swift */; };
-		21854EE02B3EEE59005FF9BF /* MyDoctorsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 21854EDF2B3EEE59005FF9BF /* MyDoctorsView.swift */; };
 		218A27A62B24F95600AA465A /* UserFirstView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 218A27A52B24F95600AA465A /* UserFirstView.swift */; };
 		218A27AC2B24F99D00AA465A /* CaseView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 218A27AB2B24F99D00AA465A /* CaseView.swift */; };
 		21A5857D2B2F735D0080D5D6 /* SymptomsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 21A5857C2B2F735D0080D5D6 /* SymptomsView.swift */; };
@@ -32,7 +31,7 @@
 		D52B58E82B9C589400E5BCD9 /* customRiskBox.swift in Sources */ = {isa = PBXBuildFile; fileRef = D52B58E72B9C589400E5BCD9 /* customRiskBox.swift */; };
 		D52B58EA2B9C5CF600E5BCD9 /* CaseDetailsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = D52B58E92B9C5CF600E5BCD9 /* CaseDetailsView.swift */; };
 		D53E55E22B904DBA00DFE171 /* dermTest.mlmodel in Sources */ = {isa = PBXBuildFile; fileRef = D53E55E12B904DBA00DFE171 /* dermTest.mlmodel */; };
-		D53F4CE02B68FCED00A3C475 /* MessageSuggestionView.swift in Sources */ = {isa = PBXBuildFile; fileRef = D53F4CDF2B68FCED00A3C475 /* MessageSuggestionView.swift */; };
+		D53F4CE02B68FCED00A3C475 /* MessageSuggestionDoctorView.swift in Sources */ = {isa = PBXBuildFile; fileRef = D53F4CDF2B68FCED00A3C475 /* MessageSuggestionDoctorView.swift */; };
 		D552BFD12B66BF9F00C66C1F /* CustomMessageBox.swift in Sources */ = {isa = PBXBuildFile; fileRef = D552BFD02B66BF9F00C66C1F /* CustomMessageBox.swift */; };
 		D565B2E62B9475980037216B /* Tips.swift in Sources */ = {isa = PBXBuildFile; fileRef = D565B2E52B9475980037216B /* Tips.swift */; };
 		D56793152B417716007F7A39 /* SummaryView.swift in Sources */ = {isa = PBXBuildFile; fileRef = D56793142B417716007F7A39 /* SummaryView.swift */; };
@@ -44,6 +43,8 @@
 		D5D866F32B529ACC0096B596 /* DiseaseDescription.swift in Sources */ = {isa = PBXBuildFile; fileRef = D5D866F22B529ACC0096B596 /* DiseaseDescription.swift */; };
 		D5D867752B53385F0096B596 /* FirebaseAuth in Frameworks */ = {isa = PBXBuildFile; productRef = D5D867742B53385F0096B596 /* FirebaseAuth */; };
 		D5D867772B5338680096B596 /* FirebaseFirestore in Frameworks */ = {isa = PBXBuildFile; productRef = D5D867762B5338680096B596 /* FirebaseFirestore */; };
+		D5D8BFC12BAE91BC00365903 /* MessagePatientDetailsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = D5D8BFC02BAE91BC00365903 /* MessagePatientDetailsView.swift */; };
+		D5D8BFC52BAE929400365903 /* CustomMessagePatientView.swift in Sources */ = {isa = PBXBuildFile; fileRef = D5D8BFC42BAE929400365903 /* CustomMessagePatientView.swift */; };
 		D5F8CD512B9498F9003F4FF6 /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = D5F8CD502B9498F9003F4FF6 /* GoogleService-Info.plist */; };
 		D5FA5F2C2B90A060007DA3A0 /* GoogleSignIn in Frameworks */ = {isa = PBXBuildFile; productRef = D5FA5F2B2B90A060007DA3A0 /* GoogleSignIn */; };
 		D5FA5F2E2B90A060007DA3A0 /* GoogleSignInSwift in Frameworks */ = {isa = PBXBuildFile; productRef = D5FA5F2D2B90A060007DA3A0 /* GoogleSignInSwift */; };
@@ -76,7 +77,6 @@
 		213584232B306AEA00888D2F /* CalendarView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CalendarView.swift; sourceTree = "<group>"; };
 		213584252B307A1600888D2F /* MessageView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MessageView.swift; sourceTree = "<group>"; };
 		2136F6C12B3B24E100BCEDB6 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist; path = Info.plist; sourceTree = "<group>"; };
-		21854EDF2B3EEE59005FF9BF /* MyDoctorsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MyDoctorsView.swift; sourceTree = "<group>"; };
 		218A27A52B24F95600AA465A /* UserFirstView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserFirstView.swift; sourceTree = "<group>"; };
 		218A27AB2B24F99D00AA465A /* CaseView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CaseView.swift; sourceTree = "<group>"; };
 		21A5857C2B2F735D0080D5D6 /* SymptomsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SymptomsView.swift; sourceTree = "<group>"; };
@@ -98,13 +98,15 @@
 		D52B58E72B9C589400E5BCD9 /* customRiskBox.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = customRiskBox.swift; sourceTree = "<group>"; };
 		D52B58E92B9C5CF600E5BCD9 /* CaseDetailsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CaseDetailsView.swift; sourceTree = "<group>"; };
 		D53E55E12B904DBA00DFE171 /* dermTest.mlmodel */ = {isa = PBXFileReference; lastKnownFileType = file.mlmodel; path = dermTest.mlmodel; sourceTree = "<group>"; };
-		D53F4CDF2B68FCED00A3C475 /* MessageSuggestionView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MessageSuggestionView.swift; sourceTree = "<group>"; };
+		D53F4CDF2B68FCED00A3C475 /* MessageSuggestionDoctorView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MessageSuggestionDoctorView.swift; sourceTree = "<group>"; };
 		D552BFD02B66BF9F00C66C1F /* CustomMessageBox.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CustomMessageBox.swift; sourceTree = "<group>"; };
 		D565B2E52B9475980037216B /* Tips.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Tips.swift; sourceTree = "<group>"; };
 		D56793142B417716007F7A39 /* SummaryView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SummaryView.swift; sourceTree = "<group>"; };
 		D56793162B421381007F7A39 /* ResultsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ResultsView.swift; sourceTree = "<group>"; };
 		D59760CE2B628C2200F2D115 /* ProfileCompletedView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProfileCompletedView.swift; sourceTree = "<group>"; };
 		D5D866F22B529ACC0096B596 /* DiseaseDescription.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DiseaseDescription.swift; sourceTree = "<group>"; };
+		D5D8BFC02BAE91BC00365903 /* MessagePatientDetailsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MessagePatientDetailsView.swift; sourceTree = "<group>"; };
+		D5D8BFC42BAE929400365903 /* CustomMessagePatientView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CustomMessagePatientView.swift; sourceTree = "<group>"; };
 		D5F8CD502B9498F9003F4FF6 /* GoogleService-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "GoogleService-Info.plist"; sourceTree = "<group>"; };
 		D5FA5F2F2B90A18D007DA3A0 /* GoogleFireAuth.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GoogleFireAuth.swift; sourceTree = "<group>"; };
 		D5FA5F312B90A39E007DA3A0 /* +View.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "+View.swift"; sourceTree = "<group>"; };
@@ -214,7 +216,6 @@
 				D53F4CDB2B68CA2500A3C475 /* Case Tab */,
 				D53F4CDC2B68CA2B00A3C475 /* Scan Tab */,
 				D53F4CDD2B68CA3200A3C475 /* dermChat */,
-				21854EDF2B3EEE59005FF9BF /* MyDoctorsView.swift */,
 				213584232B306AEA00888D2F /* CalendarView.swift */,
 			);
 			path = Views;
@@ -256,8 +257,8 @@
 			isa = PBXGroup;
 			children = (
 				213584252B307A1600888D2F /* MessageView.swift */,
-				D552BFD02B66BF9F00C66C1F /* CustomMessageBox.swift */,
-				D53F4CDF2B68FCED00A3C475 /* MessageSuggestionView.swift */,
+				D5D8BFC32BAE924200365903 /* Prescription */,
+				D5D8BFC22BAE922E00365903 /* Request */,
 			);
 			path = dermChat;
 			sourceTree = "<group>";
@@ -297,6 +298,24 @@
 			children = (
 			);
 			name = Frameworks;
+			sourceTree = "<group>";
+		};
+		D5D8BFC22BAE922E00365903 /* Request */ = {
+			isa = PBXGroup;
+			children = (
+				D5D8BFC02BAE91BC00365903 /* MessagePatientDetailsView.swift */,
+				D5D8BFC42BAE929400365903 /* CustomMessagePatientView.swift */,
+			);
+			path = Request;
+			sourceTree = "<group>";
+		};
+		D5D8BFC32BAE924200365903 /* Prescription */ = {
+			isa = PBXGroup;
+			children = (
+				D552BFD02B66BF9F00C66C1F /* CustomMessageBox.swift */,
+				D53F4CDF2B68FCED00A3C475 /* MessageSuggestionDoctorView.swift */,
+			);
+			path = Prescription;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -444,12 +463,12 @@
 			buildActionMask = 2147483647;
 			files = (
 				D53E55E22B904DBA00DFE171 /* dermTest.mlmodel in Sources */,
+				D5D8BFC12BAE91BC00365903 /* MessagePatientDetailsView.swift in Sources */,
 				D5FA5F302B90A18D007DA3A0 /* GoogleFireAuth.swift in Sources */,
-				21854EE02B3EEE59005FF9BF /* MyDoctorsView.swift in Sources */,
 				213117342B40951600471410 /* DoctorProfileView.swift in Sources */,
 				D56793172B421381007F7A39 /* ResultsView.swift in Sources */,
 				213584222B30653900888D2F /* ProfileView.swift in Sources */,
-				D53F4CE02B68FCED00A3C475 /* MessageSuggestionView.swift in Sources */,
+				D53F4CE02B68FCED00A3C475 /* MessageSuggestionDoctorView.swift in Sources */,
 				D52B58E82B9C589400E5BCD9 /* customRiskBox.swift in Sources */,
 				D59760CF2B628C2200F2D115 /* ProfileCompletedView.swift in Sources */,
 				21ECEE532B237F6B0090828B /* SignupView.swift in Sources */,
@@ -463,6 +482,7 @@
 				D5D866F32B529ACC0096B596 /* DiseaseDescription.swift in Sources */,
 				D565B2E62B9475980037216B /* Tips.swift in Sources */,
 				21A5857D2B2F735D0080D5D6 /* SymptomsView.swift in Sources */,
+				D5D8BFC52BAE929400365903 /* CustomMessagePatientView.swift in Sources */,
 				D5FA5F322B90A39E007DA3A0 /* +View.swift in Sources */,
 				218A27A62B24F95600AA465A /* UserFirstView.swift in Sources */,
 				21ECEE282B2329890090828B /* ContentView.swift in Sources */,

@@ -14,7 +14,7 @@ struct UserFirstView: View {
             DiscoverView()
                 .tabItem {
                     Image(systemName: "books.vertical.fill")
-                    Text("Explore")
+                    Text("Discover")
                 }
             
             CaseView()

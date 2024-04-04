@@ -19,17 +19,58 @@ struct CustomMessageBox: View {
     var body: some View {
             VStack{
                 HStack(spacing: 15) {
-                    Image("Doctor1")
-                        .resizable()
-                        .frame(width: 60, height: 60)
-                        .font(.title)
-                        .clipShape(Circle())
-                        .overlay(
-                            Circle()
-                                .stroke(Color.gray, lineWidth: 1)
-                        )
-                        .padding([.leading, .bottom])
-                        .padding(.bottom, 10)
+                    if let imageURL = message.imageURL {
+                        AsyncImage(url: message.imageURL) { phase in
+                            // Depending on the loading phase, show different views
+                            switch phase {
+                            case .empty:
+                                // Placeholder while loading
+                                ProgressView()
+                                    .frame(width: 60, height: 60)
+                                    .font(.title)
+                                    .clipShape(Circle())
+                                    .overlay(
+                                        Circle()
+                                            .stroke(Color.gray, lineWidth: 1)
+                                    )
+                                    .padding([.leading, .bottom])
+                                    .padding(.bottom, 10)
+                                
+                            case .success(let image):
+                                // Loaded successfully
+                                image
+                                    .resizable()
+                                    .frame(width: 60, height: 60)
+                                    .font(.title)
+                                    .clipShape(Circle())
+                                    .overlay(
+                                        Circle()
+                                            .stroke(Color.gray, lineWidth: 1)
+                                    )
+                                    .padding([.leading, .bottom])
+                                    .padding(.bottom, 10)
+                                
+                            case .failure(let error):
+                                // Error occurred while loading
+                                Text("Error: \(error.localizedDescription)")
+                            @unknown default:
+                                // Handle any future cases
+                                EmptyView()
+                            }
+                        }
+                    } else {
+                        Image(systemName: "person.fill")
+                            .resizable()
+                            .frame(width: 60, height: 60)
+                            .font(.title)
+                            .clipShape(Circle())
+                            .overlay(
+                                Circle()
+                                    .stroke(Color.gray, lineWidth: 1)
+                            )
+                            .padding([.leading, .bottom])
+                            .padding(.bottom, 10)
+                    }
                     
                     VStack(alignment: .leading, spacing: 4) {
                         HStack {
@@ -89,11 +130,11 @@ struct CustomMessageBox: View {
 struct CustomMessageBox_Previews: PreviewProvider {
     static var previews: some View {
         CustomMessageBox(message: AllMessageFromDoctor(
-            fullName: "Dr. Ritansh",
+            userID: "3434", fullName: "Dr. Ritansh",
             gender: "Male",
             age: "37",
             physicalAssistance: "Not Required",
-            givePrescription: "Have good health")
+            givePrescription: "Have good health", scanID: "343", imageURL: URL(string: "wewe"))
         
         )
         

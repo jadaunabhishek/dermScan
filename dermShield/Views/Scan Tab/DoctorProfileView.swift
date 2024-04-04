@@ -134,7 +134,6 @@ struct DoctorProfileView_Previews: PreviewProvider {
             workWeekTo: "Friday",
             nationalID: "123456789",
             nmcNumber: "NMC12345"
-            // Add more properties as needed
         ))
     }
 }

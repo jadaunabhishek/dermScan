@@ -96,7 +96,7 @@ struct LoginView: View {
                 Spacer()
                 
                 HStack{
-                    Text("Already have an account?")
+                    Text("Don't have an account?")
                     NavigationLink(destination: SignupView()){
                         Text("SIGN UP")
                             .foregroundColor(Color("PrimaryColor"))

@@ -75,7 +75,7 @@ struct SummaryView: View {
                             VStack(alignment: .leading) {
                                 
                                 HStack {
-                                    Text(currentCaseDetail?.classType ?? "")
+                                    Text(currentCaseDetail?.classType.capitalized ?? "")
                                         .font(.callout)
                                         .fontWeight(.semibold)
                                     
@@ -198,8 +198,6 @@ struct SummaryView: View {
                     Button(action: {
                         // Action to perform when the button is tapped
                         showConfirmation = true
-                        saveResultForSummary()
-                        viewModelCases.updateCaseStatusToConsulting(scanID: currentCaseDetail!.scanID)
                     }) {
                         Text("Submit")
                             .font(.title3)
@@ -216,6 +214,11 @@ struct SummaryView: View {
                             title: Text("Results Sent!"),
                             message: Text("The doctor will send you a message within 48 hours with his recommendations and next steps."),
                             dismissButton: .default(Text("Ok")) {
+//                                saveResultForSummaryRequestMessageBox()
+                                saveDoctorSideMyPatients()
+                                saveResultForSummaryPrescriptionMessageBox()
+                                saveMyDoctor()
+                                viewModelCases.updateCaseStatusToConsulting(scanID: currentCaseDetail!.scanID)
                                 navigateToNextScreen = true
                             }
                         )
@@ -249,8 +252,44 @@ struct SummaryView: View {
             fetchCurrentCaseDetails()
         }
     }
-
-    func saveResultForSummary() {
+    
+    func saveMyDoctor() {
+        guard let userID = Auth.auth().currentUser?.uid else {
+            return
+        }
+        
+        let userProfile = MyDoctors(
+            userId: doctor.userId,
+            name: doctor.name,
+            gender: doctor.gender,
+            age: doctor.age,
+            countryOfResidence: doctor.countryOfResidence,
+            city: doctor.city,
+            postCode: doctor.postCode,
+            about: doctor.about,
+            specialization: doctor.specialization,
+            clinic: doctor.clinic,
+            clinicAddress: doctor.clinicAddress,
+            workWeekFrom: doctor.workWeekFrom,
+            workWeekTo: doctor.workWeekTo,
+            nationalID: doctor.nationalID,
+            nmcNumber: doctor.nmcNumber
+        )
+        
+        let databaseRef = Database.database().reference()
+        let userPath = "patients/myDoctors/\(doctor.userId)"
+        
+        databaseRef.child(userPath).setValue(userProfile.dictionaryRepresentation()) { (error, _) in
+            if let error = error {
+                print("Error saving profile data: \(error)")
+            } else {
+                print("Profile data saved successfully")
+            }
+        }
+    }
+    
+    func saveDoctorSideMyPatients() {
+        
         guard let userIDPatient = Auth.auth().currentUser?.uid else {
             return
         }
@@ -262,7 +301,44 @@ struct SummaryView: View {
             bodyPart: bodyPart ?? "",
             time: time ?? "",
             symptom: symptom ?? "",
-            extraSymptom: extraSymptom ?? ""
+            extraSymptom: extraSymptom ?? "",
+            scanID: currentCaseDetail!.scanID,
+            classType: currentCaseDetail!.classType,
+            confidence: currentCaseDetail!.confidence,
+            riskLevel: currentCaseDetail!.riskLevel,
+            status: currentCaseDetail!.status
+        )
+
+        let ref = Database.database().reference()
+        let userPath = ref.child("doctors/myPatients/\(doctor.userId)").childByAutoId()
+
+        userPath.setValue(userAppointmentData.dictionaryRepresentation()) { (error, _) in
+            if let error = error {
+                print("Error saving profile data: \(error)")
+            } else {
+                print("Profile data saved successfully")
+            }
+        }
+    }
+
+    func saveResultForSummaryPrescriptionMessageBox() {
+        guard let userIDPatient = Auth.auth().currentUser?.uid else {
+            return
+        }
+        let userAppointmentData = UserAppointmentDetails(
+            userIDPatient: userIDPatient,
+            fullName: fullName,
+            gender: gender,
+            age: age,
+            bodyPart: bodyPart ?? "",
+            time: time ?? "",
+            symptom: symptom ?? "",
+            extraSymptom: extraSymptom ?? "",
+            scanID: currentCaseDetail!.scanID,
+            classType: currentCaseDetail!.classType,
+            confidence: currentCaseDetail!.confidence,
+            riskLevel: currentCaseDetail!.riskLevel,
+            status: currentCaseDetail!.status
         )
 
         let ref = Database.database().reference()
@@ -276,6 +352,34 @@ struct SummaryView: View {
             }
         }
     }
+    
+//    func saveResultForSummaryRequestMessageBox() {
+//        guard let userIDPatient = Auth.auth().currentUser?.uid else {
+//            return
+//        }
+//        let userAppointmentData = UserAppointmentDetails(
+//            userIDPatient: userIDPatient,
+//            fullName: fullName,
+//            gender: gender,
+//            age: age,
+//            bodyPart: bodyPart ?? "",
+//            time: time ?? "",
+//            symptom: symptom ?? "",
+//            extraSymptom: extraSymptom ?? "",
+//            scanID: currentCaseDetail!.scanID
+//        )
+//
+//        let ref = Database.database().reference()
+//        let userPath = ref.child("patients/requestByPatient/\(userIDPatient)").childByAutoId()
+//
+//        userPath.setValue(userAppointmentData.dictionaryRepresentation()) { (error, _) in
+//            if let error = error {
+//                print("Error saving profile data: \(error)")
+//            } else {
+//                print("Profile data saved successfully")
+//            }
+//        }
+//    }
 
     func fetchCurrentCaseDetails() {
         guard let userID = Auth.auth().currentUser?.uid else {
@@ -315,6 +419,11 @@ struct UserAppointmentDetails {
     var time: String
     var symptom: String
     var extraSymptom: String
+    var scanID: String
+    var classType: String
+    var confidence: Double
+    var riskLevel: String
+    var status: String
     
     // Add this method to convert the user profile to a dictionary
     func dictionaryRepresentation() -> [String: Any] {
@@ -326,7 +435,12 @@ struct UserAppointmentDetails {
             "bodyPart": bodyPart,
             "time": time,
             "symptom": symptom,
-            "extraSymptom": extraSymptom
+            "extraSymptom": extraSymptom,
+            "scanID": scanID,
+            "classType": classType,
+            "confidence": confidence,
+            "riskLevel": riskLevel,
+            "status": status
         ]
     }
 }
@@ -352,6 +466,45 @@ struct CurrentCaseDetails {
                 "status": status
             ]
         }
+}
+
+struct MyDoctors {
+    var userId: String
+    var name: String
+    var gender: String
+    var age: String
+    var countryOfResidence: String
+    var city: String
+    var postCode: String
+    var about: String
+    var specialization: String
+    var clinic: String
+    var clinicAddress: String
+    var workWeekFrom: String
+    var workWeekTo: String
+    var nationalID: String
+    var nmcNumber: String
+    
+    // Add this method to convert the user profile to a dictionary
+    func dictionaryRepresentation() -> [String: Any] {
+        return [
+            "userId": userId,
+            "name": name,
+            "gender": gender,
+            "age": age,
+            "countryOfResidence": countryOfResidence,
+            "city": city,
+            "postCode": postCode,
+            "about": about,
+            "specialization": specialization,
+            "clinic": clinic,
+            "clinicAddress": clinicAddress,
+            "workWeekFrom": workWeekFrom,
+            "workWeekTo": workWeekTo,
+            "nationalID": nationalID,
+            "nmcNumber": nmcNumber,
+        ]
+    }
 }
 
 #if DEBUG

@@ -39,14 +39,46 @@ struct customRiskBox: View {
     var body: some View {
         VStack {
             HStack {
-                Image("LowRisk")
-                    .cornerRadius(10)
-                    .padding(12)
+                if let imageURL = caseDetails.imageURL {
+                    AsyncImage(url: caseDetails.imageURL) { phase in
+                        // Depending on the loading phase, show different views
+                        switch phase {
+                        case .empty:
+                            // Placeholder while loading
+                            ProgressView()
+                                .frame(width: 80, height: 80)
+                                .padding()
+                            
+                        case .success(let image):
+                            // Loaded successfully
+                            image
+                                .resizable()
+                                .cornerRadius(10)
+                                .aspectRatio(contentMode: .fit)
+                                .frame(width: 80, height: 80)
+                                .padding()
+                            
+                        case .failure(let error):
+                            // Error occurred while loading
+                            Text("Error: \(error.localizedDescription)")
+                        @unknown default:
+                            // Handle any future cases
+                            EmptyView()
+                        }
+                    }
+                } else {
+                    Image(systemName: "person.fill")
+                        .resizable()
+                        .cornerRadius(10)
+                        .aspectRatio(contentMode: .fit)
+                        .frame(width: 40, height: 40)
+                        .padding()
+                }
                 
                 VStack(alignment: .leading) {
                     
                     HStack {
-                        Text(caseDetails.classType)
+                        Text(caseDetails.classType.capitalized)
                             .font(.callout)
                             .fontWeight(.semibold)
                         
@@ -89,5 +121,5 @@ struct customRiskBox: View {
 }
 
 #Preview {
-    customRiskBox(caseDetails: AllCasesUser(userID: "232", scanID: "34", classType: "nodules", confidence: 0.878, riskLevel: "High risk", formattedDate: "09 March 2024", status: "PENDING"))
+    customRiskBox(caseDetails: AllCasesUser(userID: "232", scanID: "34", classType: "nodules", confidence: 0.878, riskLevel: "High risk", formattedDate: "09 March 2024", status: "PENDING", imageURL: URL(string: "asdkfjasdfkl")))
 }

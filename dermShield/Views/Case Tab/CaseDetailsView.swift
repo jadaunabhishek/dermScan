@@ -31,15 +31,46 @@ struct CaseDetailsView: View {
             ScrollView {
                 VStack {
                     HStack {
-                        Image("LowRisk")
-                            .cornerRadius(10)
-                            .padding(12)
-                            .navigationBarTitle("Case Details", displayMode: .inline)
+                        if let imageURL = caseInfo.imageURL {
+                            AsyncImage(url: caseInfo.imageURL) { phase in
+                                // Depending on the loading phase, show different views
+                                switch phase {
+                                case .empty:
+                                    // Placeholder while loading
+                                    ProgressView()
+                                        .frame(width: 80, height: 80)
+                                        .padding()
+                                    
+                                case .success(let image):
+                                    // Loaded successfully
+                                    image
+                                        .resizable()
+                                        .cornerRadius(10)
+                                        .aspectRatio(contentMode: .fit)
+                                        .frame(width: 80, height: 80)
+                                        .padding()
+                                    
+                                case .failure(let error):
+                                    // Error occurred while loading
+                                    Text("Error: \(error.localizedDescription)")
+                                @unknown default:
+                                    // Handle any future cases
+                                    EmptyView()
+                                }
+                            }
+                        } else {
+                            Image(systemName: "person.fill")
+                                .resizable()
+                                .cornerRadius(10)
+                                .aspectRatio(contentMode: .fit)
+                                .frame(width: 40, height: 40)
+                                .padding()
+                        }
                         
                         VStack(alignment: .leading) {
                             
                             HStack {
-                                Text(caseInfo.classType)
+                                Text(caseInfo.classType.capitalized)
                                     .font(.callout)
                                     .fontWeight(.semibold)
                                 
@@ -69,7 +100,7 @@ struct CaseDetailsView: View {
                         
                         Spacer()
                     }
-                    .padding(10)
+                    .padding(5)
                     .background(Color.gray.opacity(0.1))
                     
                     HStack {
@@ -171,10 +202,11 @@ struct CaseDetailsView: View {
                     
                 }
             }
+            .navigationBarTitle("Case Details", displayMode: .inline)
         }
     }
 }
 
 #Preview {
-    CaseDetailsView(caseInfo: AllCasesUser(userID: "34343", scanID: "353", classType: "nodules", confidence: 0.98, riskLevel: "High risk", formattedDate: "09 March 2024", status: "PENDING"))
+    CaseDetailsView(caseInfo: AllCasesUser(userID: "34343", scanID: "353", classType: "nodules", confidence: 0.98, riskLevel: "High risk", formattedDate: "09 March 2024", status: "PENDING", imageURL: URL(string: "adjfakld")))
 }

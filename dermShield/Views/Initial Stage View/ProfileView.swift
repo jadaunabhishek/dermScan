@@ -19,8 +19,8 @@ struct ProfileView: View {
     @State private var currentMedications: String = ""
     @State private var familyMedicalHistory: String = ""
 
-    let countries = ["India", "Nepal", "USA", "Australia", "Japan"]
-    let genders = ["Male", "Female", "Other"]
+    let countries = ["select", "India", "Nepal", "USA", "Australia", "Japan"]
+    let genders = ["select", "Male", "Female", "Other"]
 
     @State private var isImagePickerPresented: Bool = false
     @State private var selectedImage: UIImage?
@@ -140,7 +140,7 @@ struct ProfileView: View {
             return
         }
 
-        let storageRef = Storage.storage().reference().child("patients/profile/\(userID)/profileImage.jpg")
+        let storageRef = Storage.storage().reference().child("patients/\(userID)/profilePhoto/image.jpg")
 
         if let imageData = image.jpegData(compressionQuality: 0.8) {
             storageRef.putData(imageData, metadata: nil) { _, error in

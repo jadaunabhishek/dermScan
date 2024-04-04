@@ -67,7 +67,7 @@ struct ResultView: View {
             let newChildRef = ref.child("patients/allCases/\(userID)/\(scanID)")
             newChildRef.setValue(resultData)
 
-            let imageRef = storageRef.child("patients/allCases/\(userID)/\(object)/\(scanID)/image.jpg")
+            let imageRef = storageRef.child("patients/\(userID)/AllCases/\(scanID)/image.jpg")
 
             if let imageData = selectedImage.jpegData(compressionQuality: 0.5) {
                 imageRef.putData(imageData, metadata: nil) { (metadata, error) in
@@ -196,7 +196,7 @@ struct ResultView: View {
                                         .padding(.leading)
                                     
                                     VStack(alignment: .leading){
-                                        Text("\(object)")
+                                        Text("\(object.capitalized)")
                                             .font(.callout)
                                         HStack{
                                             Text(risk)
@@ -227,7 +227,7 @@ struct ResultView: View {
                                         .padding(.leading)
                                     
                                     VStack(alignment: .leading){
-                                        Text("\(object)")
+                                        Text("\(object.capitalized)")
                                             .font(.callout)
                                         HStack{
                                             Text(risk)
@@ -258,7 +258,7 @@ struct ResultView: View {
                                         .padding(.leading)
                                     
                                     VStack(alignment: .leading){
-                                        Text("\(object)")
+                                        Text("\(object.capitalized)")
                                             .font(.callout)
                                         HStack{
                                             Text(risk)
@@ -289,7 +289,7 @@ struct ResultView: View {
                                         .padding(.leading)
                                     
                                     VStack(alignment: .leading){
-                                        Text("\(object)")
+                                        Text("\(object.capitalized)")
                                             .font(.callout)
                                         HStack{
                                             Text(risk)
