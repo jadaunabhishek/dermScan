@@ -1,8 +1,9 @@
-# dermScan
-
 ## Repository Structure
 - [dermScan for Patients](https://github.com/jadaunabhishek/dermScan/tree/dermScan_Patients): Contains the codebase for the dermScan application tailored for patients.
 - [dermScan for Dermatologists](https://github.com/jadaunabhishek/dermScan/tree/dermScan_Doctors): Contains the codebase for the dermScan application tailored for dermatologists.
+
+# dermScan
+https://github.com/jadaunabhishek/dermScan/assets/103330752/929bcfab-c2d9-44e9-8402-4330b7e70173
 
 Welcome to dermScan! dermScan is an iOS application designed to help users identify their acne type and connect with dermatologists for consultation and prescriptions. 
 
