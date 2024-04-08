@@ -8,26 +8,39 @@
 import SwiftUI
 import FirebaseDatabaseInternal
 import Firebase
+import FirebaseStorage
 
 struct ProfileCompletedView: View {
     
     @State private var isEditing: Bool = false
     @State private var userProfile: UserProfile?
-    var profileImageURL: URL?
+    @State private var profileImage: Image?
+    @State private var errorMessage: String?
     
     var body: some View {
         VStack{
             HStack {
                 Spacer()
-                Image(systemName: "person.crop.circle")
-                    .resizable()
-                    .foregroundColor(Color("PrimaryColor"))
-                    .aspectRatio(contentMode: .fit)
-                    .frame(width: 60, height: 60)
-                    .clipShape(Circle())
-                    .overlay(Circle().stroke(Color.white, lineWidth: 4))
-                    .padding(.bottom, 1)
-                    .padding(.top)
+                if let profileImage = profileImage {
+                    profileImage
+                        .resizable()
+                        .aspectRatio(contentMode: .fit)
+                        .frame(width: 60, height: 60)
+                        .clipShape(Circle())
+                        .overlay(Circle().stroke(Color.white, lineWidth: 4))
+                        .padding(.bottom, 1)
+                        .padding(.top)
+                } else {
+                    Image(systemName: "person.crop.circle")
+                        .resizable()
+                        .foregroundColor(Color("PrimaryColor"))
+                        .aspectRatio(contentMode: .fit)
+                        .frame(width: 60, height: 60)
+                        .clipShape(Circle())
+                        .overlay(Circle().stroke(Color.white, lineWidth: 4))
+                        .padding(.bottom, 1)
+                        .padding(.top)
+                }
                 Spacer()
             }
             Form {
@@ -172,9 +185,12 @@ struct ProfileCompletedView: View {
         .background(Color.gray.opacity(0.11))
         .onAppear {
             // Fetch user profile data when the view appears
+            downloadImage()
             fetchUserProfile()
         }
     }
+    
+    
     func fetchUserProfile() {
         guard let userID = Auth.auth().currentUser?.uid else {
             return
@@ -209,6 +225,28 @@ struct ProfileCompletedView: View {
                 nationalID: data["nationalID"] as? String ?? "",
                 nmcNumber: data["nmcNumber"] as? String ?? ""
             )
+        }
+    }
+    
+    func downloadImage() {
+        guard let userID = Auth.auth().currentUser else {
+            errorMessage = "User not authenticated."
+            return
+        }
+
+        let storage = Storage.storage() // Accessing storage via Firebase module
+        let storageRef = storage.reference()
+        let imageRef = storageRef.child("doctors/profile/\(userID.uid)/profileImage.jpg")
+
+        imageRef.getData(maxSize: 5 * 1024 * 1024) { data, error in
+            guard let imageData = data, error == nil else {
+                self.errorMessage = "Error downloading image: \(error?.localizedDescription ?? "Unknown error")"
+                return
+            }
+
+            if let uiImage = UIImage(data: imageData) {
+                self.profileImage = Image(uiImage: uiImage) // Assign downloaded image
+            }
         }
     }
 

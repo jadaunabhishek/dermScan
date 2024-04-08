@@ -84,14 +84,56 @@ class AllMessagesViewModel: ObservableObject {
                             
                             orderedScanIDs.append(scanID) // Keep track of order
                             
-                            // Fetch image URL from Storage
+                            
+                            // Fetch image URL
                             let imageRef = storageRef.child("patients/\(userIDPatient)/profilePhoto/image.jpg")
-                            imageRef.downloadURL { (url, error) in
+                            imageRef.downloadURL { url, error in
                                 if let error = error {
-                                    print("Error getting download URL: \(error)")
+                                    print("Error downloading image: \(error)")
+                                    // Create AllCasesUser object with imageURL
+                                    let mes = AllMessageFromPatient(
+                                        userIDPatient: userIDPatient,
+                                        fullName: fullName,
+                                        gender: gender,
+                                        age: age,
+                                        bodyPart: bodyPart,
+                                        time: time,
+                                        symptom: symptom,
+                                        extraSymptom: extraSymptom,
+                                        scanID: scanID,
+                                        classType: classType,
+                                        confidence: confidence,
+                                        riskLevel: riskLevel,
+                                        status: status,
+                                        imageURL: url
+                                    )
+                                    messages.append(mes)
+                                    self.users = messages // Update users array after adding all doctors
                                     return
                                 }
-                                
+                                guard let url = url else {
+                                    print("Error: No URL for image")
+                                    // Create AllCasesUser object with imageURL
+                                    let mes = AllMessageFromPatient(
+                                        userIDPatient: userIDPatient,
+                                        fullName: fullName,
+                                        gender: gender,
+                                        age: age,
+                                        bodyPart: bodyPart,
+                                        time: time,
+                                        symptom: symptom,
+                                        extraSymptom: extraSymptom,
+                                        scanID: scanID,
+                                        classType: classType,
+                                        confidence: confidence,
+                                        riskLevel: riskLevel,
+                                        status: status,
+                                        imageURL: url
+                                    )
+                                    messages.append(mes)
+                                    self.users = messages // Update users array after adding all doctors
+                                    return
+                                }
                                 // Create AllCasesUser object with imageURL
                                 let mes = AllMessageFromPatient(
                                     userIDPatient: userIDPatient,
@@ -111,6 +153,7 @@ class AllMessagesViewModel: ObservableObject {
                                 )
                                 
                                 messages.append(mes)
+                                self.users = messages
                                 
                                 // Check if all cases are fetched
                                 if messages.count == snapshot.childrenCount {

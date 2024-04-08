@@ -18,7 +18,7 @@ struct DiscoverView: View {
     @State private var isEditProfileVisible = false
     @State private var isPopoverPresented = false
     
-
+    
     var tipIdentify = identifyTip()
     var tipProfile = profileTip()
     
@@ -93,6 +93,8 @@ struct DiscoverView: View {
                             }
                             .padding([.leading, .trailing])
                             
+                            
+                            // start
                             HStack{
                                 Text("My Patients")
                                     .font(.callout)
@@ -121,11 +123,11 @@ struct DiscoverView: View {
                                 LazyVStack {
                                     ForEach(viewModelMyPatients.users.indices.prefix(showAllMyPatients ? 3 : 1), id: \.self) { i in
                                         NavigationLink(
-                                            destination: EmptyView(),
+                                            destination: PatientDetailsView(patientData: viewModelMyPatients.users[i]),
                                             label: {
                                                 // Your Doctor UI view here
                                                 // Customize as needed with doctor data
-                                                PatientCard(doctorDetails: viewModelMyPatients.users[i])
+                                                PatientCard(patientDetails: viewModelMyPatients.users[i])
                                                     .padding(.bottom, 5)
                                                     .padding(.top, 5)
                                             }
@@ -134,37 +136,7 @@ struct DiscoverView: View {
                                     }
                                 }
                             }
-                            
-                            ZStack{
-                                RoundedRectangle(cornerRadius: 10)
-                                    .foregroundColor(.white)
-                                    .shadow(color: Color.gray.opacity(0.5), radius: 5, x: 0, y: 2)
-                                    .frame(maxHeight: 125)
-                                HStack {
-                                    Image("Doctor4") // Replace "doctorImage" with the actual image name
-                                        .font(.largeTitle)
-                                        .cornerRadius(8)
-                                        .padding([.leading, .trailing])
-                                        .padding([.leading, .trailing])
-                                    
-                                    VStack(alignment: .leading) {
-                                        Text("Sarah Roy")
-                                            .font(.title3)
-                                            .fontWeight(.medium)
-                                            .padding(.top)
-                                        Text("Dermatologist")
-                                            .font(.callout)
-                                            .foregroundColor(.gray)
-                                        Text("VSG Potheri")
-                                            .font(.callout)
-                                            .foregroundColor(.gray)
-                                            .padding(.bottom)
-                                    }
-                                    Spacer()
-                                }
-                            }
-                            .padding([.trailing, .leading, .bottom])
-                            
+                            //end
                             
                             Text("Know more about Acne")
                                 .font(.callout)
@@ -199,31 +171,15 @@ struct DiscoverView: View {
                             .tabViewStyle(PageTabViewStyle())
                             .indexViewStyle(PageIndexViewStyle(backgroundDisplayMode: .never))
                         }
-                        .sheet(isPresented: $isEditProfileVisible) {
-                            ProfileView()
-                        }
-                        
-                        Spacer()
                     }
-                    .navigationTitle("Discover")            }
+                }
+                .navigationBarTitle("Discover")
+                .padding(.top, 1)
             }
         }
     }
 }
 
-
-//struct JourneyFeaturesView: View {
-//    var body: some View {
-//        ZStack{
-//            RoundedRectangle(cornerRadius: 10)
-//                .foregroundColor(.white)
-//                .shadow(color: Color.gray.opacity(0.5), radius: 5, x: 0, y: 2)
-//            HStack {
-//
-//            }
-//        }
-//    }
-//}
 
 struct FeatureView: View {
     var symbolName: String
@@ -309,172 +265,127 @@ struct customDiseaseDataBox: View {
     }
 }
 
-struct customProfileCardView : View {
-    
-    @State private var progressValue: Double = 20
-    
-    var body: some View {
-        HStack{
-            Image(systemName: "person.crop.circle")
-                .font(.system(size: 50))
-                .foregroundColor(Color.gray)
-                .overlay(
-                    RoundedRectangle(cornerRadius: 50) // Adjust corner radius as needed
-                        .stroke(Color.white, lineWidth: 3) // Adjust border color and width
-                )
-                .padding(.leading)
-            VStack{
-                HStack{
-                    Text("My Profile")
-                        .fontWeight(.bold)
-                        .padding([.leading, .trailing])
-                    Spacer()
-                }
-                
-                HStack{
-                    ProgressView(value: progressValue, total: 100)
-                        .accentColor(Color("PrimaryColor"))
-                    
-                    Text(String(format: "%.0f%", progressValue) + "%")
-                        .font(.caption)
-                }
-                .padding([.leading, .trailing])
-                
-                HStack{
-                    Text("Not Completed")
-                        .font(.caption)
-                        .padding([.leading, .trailing])
-                    Spacer()
-                }
-            }
-            .padding([.trailing, .top, .bottom])
-        }
-        
-    }
-}
-
 
 struct AllPatientUser {
-    var userId: String
-    var name: String
+    var userIDPatient: String
+    var fullName: String
     var gender: String
     var age: String
-    var countryOfResidence: String
-    var city: String
-    var postCode: String
-    var about: String
-    var specialization: String
-    var clinic: String
-    var clinicAddress: String
-    var workWeekFrom: String
-    var workWeekTo: String
-    var nationalID: String
-    var nmcNumber: String
+    var bodyPart: String
+    var time: String
+    var symptom: String
+    var extraSymptom: String
+    var scanID: String
+    var classType: String
+    var confidence: Double
+    var riskLevel: String
+    var status: String
     var imageURL: URL? // Added property for imageURL
 }
 
 class MyPatientsViewModel: ObservableObject {
     @Published var users = [AllPatientUser]()
     
+    
     init() {
         fetchAllUsers()
     }
     
     private func fetchAllUsers() {
-        let databaseRef = Database.database().reference().child("doctors/myPatients")
+        guard let userID = Auth.auth().currentUser?.uid else {
+            print("User not authenticated")
+            return
+        }
+        
+        print("Current user \(userID)")
+        let databaseRef = Database.database().reference().child("doctors/myPatients/\(userID)")
         
         databaseRef.observe(.value) { snapshot in
-            var doctors = [AllPatientUser]()
+            var patients = [AllPatientUser]()
             
             for case let childSnapshot as DataSnapshot in snapshot.children {
                 if let userData = childSnapshot.value as? [String: Any] {
-                    if let userId = userData["userId"] as? String,
-                       let name = userData["name"] as? String,
+                    if let userIDPatient = userData["userIDPatient"] as? String,
+                       let fullName = userData["fullName"] as? String,
                        let gender = userData["gender"] as? String,
                        let age = userData["age"] as? String,
-                       let countryOfResidence = userData["countryOfResidence"] as? String,
-                       let city = userData["city"] as? String,
-                       let postCode = userData["postCode"] as? String,
-                       let about = userData["about"] as? String,
-                       let specialization = userData["specialization"] as? String,
-                       let clinic = userData["clinic"] as? String,
-                       let clinicAddress = userData["clinicAddress"] as? String,
-                       let workWeekFrom = userData["workWeekFrom"] as? String,
-                       let workWeekTo = userData["workWeekTo"] as? String,
-                       let nationalID = userData["nationalID"] as? String,
-                       let nmcNumber = userData["nmcNumber"] as? String {
+                       let bodyPart = userData["bodyPart"] as? String,
+                       let time = userData["time"] as? String,
+                       let symptom = userData["symptom"] as? String,
+                       let extraSymptom = userData["extraSymptom"] as? String,
+                       let scanID = userData["scanID"] as? String,
+                       let classType = userData["classType"] as? String,
+                       let confidence = userData["confidence"] as? Double,
+                       let riskLevel = userData["riskLevel"] as? String,
+                       let status = userData["status"] as? String {
                         
                         // Fetch image URL
-                        let storageRef = Storage.storage().reference().child("doctors/profile/\(userId)/profileImage.jpg")
+                        let storageRef = Storage.storage().reference().child("patients/\(userIDPatient)/profilePhoto/image.jpg")
                         storageRef.downloadURL { url, error in
                             if let error = error {
                                 print("Error downloading image: \(error)")
-                                let doctor = AllPatientUser(
-                                    userId: userId,
-                                    name: name,
+                                let patient = AllPatientUser(
+                                    userIDPatient: userIDPatient,
+                                    fullName: fullName,
                                     gender: gender,
                                     age: age,
-                                    countryOfResidence: countryOfResidence,
-                                    city: city,
-                                    postCode: postCode,
-                                    about: about,
-                                    specialization: specialization,
-                                    clinic: clinic,
-                                    clinicAddress: clinicAddress,
-                                    workWeekFrom: workWeekFrom,
-                                    workWeekTo: workWeekTo,
-                                    nationalID: nationalID,
-                                    nmcNumber: nmcNumber,
+                                    bodyPart: bodyPart,
+                                    time: time,
+                                    symptom: symptom,
+                                    extraSymptom: extraSymptom,
+                                    scanID: scanID,
+                                    classType: classType,
+                                    confidence: confidence,
+                                    riskLevel: riskLevel,
+                                    status: status,
                                     imageURL: nil // Set imageURL to nil in case of error
                                 )
-                                doctors.append(doctor)
-                                self.users = doctors // Update users array after adding all doctors
+                                patients.append(patient)
+                                self.users = patients // Update users array after adding all doctors
                                 return
                             }
+                            
                             guard let url = url else {
                                 print("Error: No URL for image")
-                                let doctor = AllPatientUser(
-                                    userId: userId,
-                                    name: name,
+                                let patient = AllPatientUser(
+                                    userIDPatient: userIDPatient,
+                                    fullName: fullName,
                                     gender: gender,
                                     age: age,
-                                    countryOfResidence: countryOfResidence,
-                                    city: city,
-                                    postCode: postCode,
-                                    about: about,
-                                    specialization: specialization,
-                                    clinic: clinic,
-                                    clinicAddress: clinicAddress,
-                                    workWeekFrom: workWeekFrom,
-                                    workWeekTo: workWeekTo,
-                                    nationalID: nationalID,
-                                    nmcNumber: nmcNumber,
-                                    imageURL: nil // Set imageURL to nil if URL is not available
+                                    bodyPart: bodyPart,
+                                    time: time,
+                                    symptom: symptom,
+                                    extraSymptom: extraSymptom,
+                                    scanID: scanID,
+                                    classType: classType,
+                                    confidence: confidence,
+                                    riskLevel: riskLevel,
+                                    status: status,
+                                    imageURL: nil // Set imageURL to nil in case of error
                                 )
-                                doctors.append(doctor)
-                                self.users = doctors // Update users array after adding all doctors
+                                patients.append(patient)
+                                self.users = patients // Update users array after adding all doctors
                                 return
                             }
-                            let doctor = AllPatientUser(
-                                userId: userId,
-                                name: name,
+                            
+                            let patient = AllPatientUser(
+                                userIDPatient: userIDPatient,
+                                fullName: fullName,
                                 gender: gender,
                                 age: age,
-                                countryOfResidence: countryOfResidence,
-                                city: city,
-                                postCode: postCode,
-                                about: about,
-                                specialization: specialization,
-                                clinic: clinic,
-                                clinicAddress: clinicAddress,
-                                workWeekFrom: workWeekFrom,
-                                workWeekTo: workWeekTo,
-                                nationalID: nationalID,
-                                nmcNumber: nmcNumber,
-                                imageURL: url // Set imageURL property
+                                bodyPart: bodyPart,
+                                time: time,
+                                symptom: symptom,
+                                extraSymptom: extraSymptom,
+                                scanID: scanID,
+                                classType: classType,
+                                confidence: confidence,
+                                riskLevel: riskLevel,
+                                status: status,
+                                imageURL: url // Set imageURL to nil in case of error                                imageURL: url // Set imageURL property
                             )
-                            doctors.append(doctor)
-                            self.users = doctors // Update users array after adding all doctors
+                            patients.append(patient)
+                            self.users = patients // Update users array after adding all patients
                         }
                     }
                 }
@@ -484,7 +395,7 @@ class MyPatientsViewModel: ObservableObject {
 }
 
 struct PatientCard: View {
-    var doctorDetails: AllPatientUser
+    var patientDetails: AllPatientUser
     var body: some View {
         ZStack{
             RoundedRectangle(cornerRadius: 10)
@@ -493,8 +404,8 @@ struct PatientCard: View {
                 .frame(maxHeight: 125)
             HStack {
                 
-                if let imageURL = doctorDetails.imageURL {
-                    AsyncImage(url: doctorDetails.imageURL) { phase in
+                if let imageURL = patientDetails.imageURL {
+                    AsyncImage(url: patientDetails.imageURL) { phase in
                         // Depending on the loading phase, show different views
                         switch phase {
                         case .empty:
@@ -514,7 +425,7 @@ struct PatientCard: View {
                             
                         case .failure(let error):
                             // Error occurred while loading
-                            Text("Error: \(error.localizedDescription)")
+                            Text("Error")
                         @unknown default:
                             // Handle any future cases
                             EmptyView()
@@ -532,14 +443,22 @@ struct PatientCard: View {
                 
                 
                 VStack(alignment: .leading) {
-                    Text(doctorDetails.name)
-                        .font(.title3)
-                        .fontWeight(.medium)
-                        .padding(.top)
-                    Text(doctorDetails.specialization)
+                    HStack {
+                        Text(patientDetails.fullName)
+                            .font(.title3)
+                            .fontWeight(.medium)
+                            .padding(.top)
+                        
+                        Spacer()
+                        
+                        Text(patientDetails.status)
+                            .font(.caption)
+                            .foregroundColor(.gray)
+                    }
+                    Text("\(patientDetails.age) Years, \(patientDetails.gender)")
                         .font(.callout)
                         .foregroundColor(.gray)
-                    Text(doctorDetails.clinic)
+                    Text(patientDetails.riskLevel)
                         .font(.callout)
                         .foregroundColor(.gray)
                         .padding(.bottom)

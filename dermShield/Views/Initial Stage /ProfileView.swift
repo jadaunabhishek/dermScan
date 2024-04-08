@@ -22,10 +22,10 @@ struct ProfileView: View {
     @State private var workWeekTo: String = ""
     @State private var specialization: String = ""
     
-    let countries = ["India", "Nepal", "USA", "Australia", "Japan"]
-    let genders = ["Male", "Female", "Other"]
-    let days = ["Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday", "Sunday"]
-    let specializations = ["Dermatologist"]
+    let countries = ["Select", "India", "Nepal", "USA", "Australia", "Japan"]
+    let genders = ["Select", "Male", "Female", "Other"]
+    let days = ["Select", "Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday", "Sunday"]
+    let specializations = ["Select", "Dermatologist"]
     
     @State private var isImagePickerPresented: Bool = false
     @State private var selectedImage: UIImage?

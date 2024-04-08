@@ -23,6 +23,7 @@
 		21ECEE432B23298B0090828B /* dermShieldUITestsLaunchTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 21ECEE422B23298B0090828B /* dermShieldUITestsLaunchTests.swift */; };
 		21ECEE512B23332F0090828B /* LoginView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 21ECEE502B23332F0090828B /* LoginView.swift */; };
 		21ECEE532B237F6B0090828B /* SignupView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 21ECEE522B237F6B0090828B /* SignupView.swift */; };
+		D535ED772BC0802200A7AE7C /* PatientDetailsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = D535ED762BC0802200A7AE7C /* PatientDetailsView.swift */; };
 		D53E55E82B908AB300DFE171 /* dermTest.mlmodel in Sources */ = {isa = PBXBuildFile; fileRef = D53E55E72B908AB300DFE171 /* dermTest.mlmodel */; };
 		D552BFD32B66BFFD00C66C1F /* CustomMessageBox.swift in Sources */ = {isa = PBXBuildFile; fileRef = D552BFD22B66BFFD00C66C1F /* CustomMessageBox.swift */; };
 		D552BFD52B66D7B200C66C1F /* MessageSuggestionView.swift in Sources */ = {isa = PBXBuildFile; fileRef = D552BFD42B66D7B200C66C1F /* MessageSuggestionView.swift */; };
@@ -81,6 +82,7 @@
 		21ECEE422B23298B0090828B /* dermShieldUITestsLaunchTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = dermShieldUITestsLaunchTests.swift; sourceTree = "<group>"; };
 		21ECEE502B23332F0090828B /* LoginView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoginView.swift; sourceTree = "<group>"; };
 		21ECEE522B237F6B0090828B /* SignupView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SignupView.swift; sourceTree = "<group>"; };
+		D535ED762BC0802200A7AE7C /* PatientDetailsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PatientDetailsView.swift; sourceTree = "<group>"; };
 		D53E55E72B908AB300DFE171 /* dermTest.mlmodel */ = {isa = PBXFileReference; lastKnownFileType = file.mlmodel; path = dermTest.mlmodel; sourceTree = "<group>"; };
 		D552BFD22B66BFFD00C66C1F /* CustomMessageBox.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CustomMessageBox.swift; sourceTree = "<group>"; };
 		D552BFD42B66D7B200C66C1F /* MessageSuggestionView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MessageSuggestionView.swift; sourceTree = "<group>"; };
@@ -205,6 +207,7 @@
 			isa = PBXGroup;
 			children = (
 				211364692B265ED50028F203 /* DiscoverView.swift */,
+				D535ED762BC0802200A7AE7C /* PatientDetailsView.swift */,
 			);
 			path = "Discover Tab";
 			sourceTree = "<group>";
@@ -428,6 +431,7 @@
 				218A27A62B24F95600AA465A /* UserFirstView.swift in Sources */,
 				21ECEE282B2329890090828B /* ContentView.swift in Sources */,
 				2113646C2B265EFE0028F203 /* ScanView.swift in Sources */,
+				D535ED772BC0802200A7AE7C /* PatientDetailsView.swift in Sources */,
 				D53E55E82B908AB300DFE171 /* dermTest.mlmodel in Sources */,
 				21A5857F2B2F76CA0080D5D6 /* CustomBoxView.swift in Sources */,
 				213584262B307A1600888D2F /* MessageView.swift in Sources */,

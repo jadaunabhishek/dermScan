@@ -145,6 +145,7 @@ struct MessageSuggestionView: View {
                                     .aspectRatio(contentMode: .fit)
                             }
                             .cornerRadius(10)
+                            .padding()
                         }
                     }
                 }
