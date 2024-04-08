@@ -44,7 +44,7 @@ struct DiscoverView: View {
                                         .font(.title3)
                                         .foregroundColor(Color("PrimaryColor"))
                                 }))
-
+                            
                             HStack {
                                 
                                 ZStack{
@@ -158,7 +158,7 @@ struct DiscoverView: View {
                                 LazyVStack {
                                     ForEach(viewModelMyDoctors.users.indices.prefix(showAllMyDoctors ? 3 : 1), id: \.self) { i in
                                         NavigationLink(
-                                            destination: DoctorProfileView(scanID: " ", doctor: viewModelMyDoctors.users[i]),
+                                            destination: MyDoctorsProfileView(scanID: " ", doctor: viewModelMyDoctors.users[i]),
                                             label: {
                                                 // Your Doctor UI view here
                                                 // Customize as needed with doctor data
@@ -213,10 +213,12 @@ struct DiscoverView: View {
                         
                         Spacer()
                     }
-                    .navigationTitle("Discover")            }
+                    .navigationTitle("Discover")
+                    .padding(.top, 0)
+                }
             }
         }
-    }    
+    }
 }
 
 
@@ -357,7 +359,14 @@ class MyDoctorsViewModel: ObservableObject {
     }
     
     private func fetchAllUsers() {
-        let databaseRef = Database.database().reference().child("patients/myDoctors")
+        
+        guard let userID = Auth.auth().currentUser?.uid else {
+            print("User not authenticated")
+            return
+        }
+        print(userID)
+        
+        let databaseRef = Database.database().reference().child("patients/myDoctors/\(userID)")
         
         databaseRef.observe(.value) { snapshot in
             var doctors = [AllDoctorUser]()

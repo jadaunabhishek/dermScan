@@ -41,7 +41,7 @@ struct CustomMessageBox: View {
                                 image
                                     .resizable()
                                     .frame(width: 60, height: 60)
-                                    .font(.title)
+                                    .aspectRatio(contentMode: .fit)
                                     .clipShape(Circle())
                                     .overlay(
                                         Circle()
@@ -62,8 +62,7 @@ struct CustomMessageBox: View {
                         Image(systemName: "person.fill")
                             .resizable()
                             .frame(width: 60, height: 60)
-                            .font(.title)
-                            .clipShape(Circle())
+                            .aspectRatio(contentMode: .fit)                            .clipShape(Circle())
                             .overlay(
                                 Circle()
                                     .stroke(Color.gray, lineWidth: 1)

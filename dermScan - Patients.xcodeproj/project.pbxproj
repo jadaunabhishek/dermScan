@@ -45,6 +45,7 @@
 		D5D867772B5338680096B596 /* FirebaseFirestore in Frameworks */ = {isa = PBXBuildFile; productRef = D5D867762B5338680096B596 /* FirebaseFirestore */; };
 		D5D8BFC12BAE91BC00365903 /* MessagePatientDetailsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = D5D8BFC02BAE91BC00365903 /* MessagePatientDetailsView.swift */; };
 		D5D8BFC52BAE929400365903 /* CustomMessagePatientView.swift in Sources */ = {isa = PBXBuildFile; fileRef = D5D8BFC42BAE929400365903 /* CustomMessagePatientView.swift */; };
+		D5DBFFE42BC33192001C3103 /* MyDoctorsProfileView.swift in Sources */ = {isa = PBXBuildFile; fileRef = D5DBFFE32BC33192001C3103 /* MyDoctorsProfileView.swift */; };
 		D5F8CD512B9498F9003F4FF6 /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = D5F8CD502B9498F9003F4FF6 /* GoogleService-Info.plist */; };
 		D5FA5F2C2B90A060007DA3A0 /* GoogleSignIn in Frameworks */ = {isa = PBXBuildFile; productRef = D5FA5F2B2B90A060007DA3A0 /* GoogleSignIn */; };
 		D5FA5F2E2B90A060007DA3A0 /* GoogleSignInSwift in Frameworks */ = {isa = PBXBuildFile; productRef = D5FA5F2D2B90A060007DA3A0 /* GoogleSignInSwift */; };
@@ -107,6 +108,7 @@
 		D5D866F22B529ACC0096B596 /* DiseaseDescription.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DiseaseDescription.swift; sourceTree = "<group>"; };
 		D5D8BFC02BAE91BC00365903 /* MessagePatientDetailsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MessagePatientDetailsView.swift; sourceTree = "<group>"; };
 		D5D8BFC42BAE929400365903 /* CustomMessagePatientView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CustomMessagePatientView.swift; sourceTree = "<group>"; };
+		D5DBFFE32BC33192001C3103 /* MyDoctorsProfileView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MyDoctorsProfileView.swift; sourceTree = "<group>"; };
 		D5F8CD502B9498F9003F4FF6 /* GoogleService-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "GoogleService-Info.plist"; sourceTree = "<group>"; };
 		D5FA5F2F2B90A18D007DA3A0 /* GoogleFireAuth.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GoogleFireAuth.swift; sourceTree = "<group>"; };
 		D5FA5F312B90A39E007DA3A0 /* +View.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "+View.swift"; sourceTree = "<group>"; };
@@ -225,6 +227,7 @@
 			isa = PBXGroup;
 			children = (
 				211364692B265ED50028F203 /* DiscoverView.swift */,
+				D5DBFFE32BC33192001C3103 /* MyDoctorsProfileView.swift */,
 			);
 			path = "Discover Tab";
 			sourceTree = "<group>";
@@ -469,6 +472,7 @@
 				D56793172B421381007F7A39 /* ResultsView.swift in Sources */,
 				213584222B30653900888D2F /* ProfileView.swift in Sources */,
 				D53F4CE02B68FCED00A3C475 /* MessageSuggestionDoctorView.swift in Sources */,
+				D5DBFFE42BC33192001C3103 /* MyDoctorsProfileView.swift in Sources */,
 				D52B58E82B9C589400E5BCD9 /* customRiskBox.swift in Sources */,
 				D59760CF2B628C2200F2D115 /* ProfileCompletedView.swift in Sources */,
 				21ECEE532B237F6B0090828B /* SignupView.swift in Sources */,

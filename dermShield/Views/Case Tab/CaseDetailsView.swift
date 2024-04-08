@@ -9,6 +9,7 @@ import SwiftUI
 
 struct CaseDetailsView: View {
     var caseInfo : AllCasesUser
+    @State private var isShowingImage = false
     
     var circleColor: String {
         switch caseInfo.riskLevel {
@@ -166,18 +167,22 @@ struct CaseDetailsView: View {
                         }
                         
                         HStack {
-                            ZStack{
-                                RoundedRectangle(cornerRadius: 10)
-                                    .foregroundColor(.white)
-                                    .shadow(color: Color.gray.opacity(0.5), radius: 5, x: 0, y: 2)
-                                    .frame(height: 125)
-                                    .frame(width: 160)
-                                VStack{
-                                    Image("casePhotos")
-                                    Text("Photos")
+                            Button {
+                                self.isShowingImage.toggle()
+                            } label: {
+                                ZStack{
+                                    RoundedRectangle(cornerRadius: 10)
+                                        .foregroundColor(.white)
+                                        .shadow(color: Color.gray.opacity(0.5), radius: 5, x: 0, y: 2)
+                                        .frame(height: 125)
+                                        .frame(width: 160)
+                                    VStack{
+                                        Image("casePhotos")
+                                        Text("Photos")
+                                    }
                                 }
+                                .padding(10)
                             }
-                            .padding(10)
                             
                             Button {
                                 viewModelCases.updateCaseStatus(scanID: caseInfo.scanID)
@@ -196,6 +201,7 @@ struct CaseDetailsView: View {
                                     }
                                     .padding(10)
                             }
+                            .disabled(caseInfo.status == "CONSULTING" && caseInfo.status == "COMPLETE")
                         }
                     }
                     Spacer()
@@ -203,6 +209,43 @@ struct CaseDetailsView: View {
                 }
             }
             .navigationBarTitle("Case Details", displayMode: .inline)
+            .overlay(
+                VStack {
+                    if isShowingImage {
+                        if let profileImage = caseInfo.imageURL {
+                            AsyncImage(url: caseInfo.imageURL) { phase in
+                                // Depending on the loading phase, show different views
+                                switch phase {
+                                case .empty:
+                                    // Placeholder while loading
+                                    ProgressView()
+                                        .frame(width: 80, height: 80)
+                                        .padding()
+                                    
+                                case .success(let image):
+                                    // Loaded successfully
+                                    image
+                                        .resizable()
+                                        .aspectRatio(contentMode: .fit)
+                                        .cornerRadius(10)
+                                        .padding()
+                                  
+                                    
+                                case .failure(let error):
+                                    // Error occurred while loading
+                                    Text("Error: \(error.localizedDescription)")
+                                @unknown default:
+                                    // Handle any future cases
+                                    EmptyView()
+                                }
+                            }
+                        }
+                    }
+                }
+            )
+            .onTapGesture {
+                self.isShowingImage = false
+            }
         }
     }
 }

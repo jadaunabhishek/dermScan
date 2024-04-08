@@ -209,6 +209,7 @@ struct SummaryView: View {
                             .cornerRadius(50)
                     }
                     .padding([.leading, .trailing, .top])
+                    .disabled(fullName.isEmpty || gender.isEmpty || age.isEmpty)
                     .alert(isPresented: $showConfirmation) {
                         Alert(
                             title: Text("Results Sent!"),
@@ -277,9 +278,10 @@ struct SummaryView: View {
         )
         
         let databaseRef = Database.database().reference()
-        let userPath = "patients/myDoctors/\(doctor.userId)"
+        let userPath = databaseRef.child("patients/myDoctors/\(userID)").childByAutoId()
         
-        databaseRef.child(userPath).setValue(userProfile.dictionaryRepresentation()) { (error, _) in
+        
+        userPath.setValue(userProfile.dictionaryRepresentation()) { (error, _) in
             if let error = error {
                 print("Error saving profile data: \(error)")
             } else {

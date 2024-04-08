@@ -10,64 +10,6 @@ import Firebase
 import FirebaseDatabaseInternal
 import FirebaseStorage
 
-//struct AllMessageFromPatient {
-//    var userIDPatient: String
-//    var fullName: String
-//    var gender: String
-//    var age: String
-//    var bodyPart: String
-//    var time: String
-//    var symptom: String
-//    var extraSymptom: String
-//}
-
-//class AllMessagesFromPatientViewModel: ObservableObject {
-//    @Published var users = [AllMessageFromPatient]()
-//
-//    init() {
-//        fetchAllUsers()
-//    }
-//
-//    private func fetchAllUsers() {
-//        
-//        let databaseRef = Database.database().reference().child("message/requestByPatient/\(userID)")
-//
-//        databaseRef.observe(.value) { snapshot in
-//            var messages = [AllMessageFromPatient]()
-//
-//            for case let childSnapshot as DataSnapshot in snapshot.children {
-//                if let userData = childSnapshot.value as? [String: Any] {
-//                    if let userIDPatient = userData["userIDPatient"] as? String,
-//                       let fullName = userData["fullName"] as? String,
-//                       let gender = userData["gender"] as? String,
-//                       let age = userData["age"] as? String,
-//                       let bodyPart = userData["bodyPart"] as? String,
-//                       let time = userData["time"] as? String,
-//                       let symptom = userData["symptom"] as? String,
-//                       let extraSymptom = userData["extraSymptom"] as? String {
-//
-//                        let mes = AllMessageFromPatient(
-//                            userIDPatient: userIDPatient,
-//                            fullName: fullName,
-//                            gender: gender,
-//                            age: age,
-//                            bodyPart: bodyPart,
-//                            time: time,
-//                            symptom: symptom,
-//                            extraSymptom: extraSymptom
-//                        )
-//
-//                        messages.append(mes)
-//                    }
-//                }
-//            }
-//
-//            self.users = messages
-//        }
-//    }
-//}
-
-
 struct AllMessageFromDoctor {
     var userID: String
     var fullName: String
@@ -123,14 +65,45 @@ class AllMessagesFromDoctorViewModel: ObservableObject {
                             
                             orderedScanIDs.append(scanID) // Keep track of order
                             
-                            // Fetch image URL from Storage
+                            
+                            
+                            // Fetch image URL
                             let imageRef = storageRef.child("doctors/profile/\(userID)/profileImage.jpg")
-                            imageRef.downloadURL { (url, error) in
+                            imageRef.downloadURL { url, error in
                                 if let error = error {
-                                    print("Error getting download URL: \(error)")
+                                    print("Error downloading image: \(error)")
+                                    // Create AllCasesUser object with imageURL
+                                    let mes = AllMessageFromDoctor(
+                                        userID: userID,
+                                        fullName: fullName,
+                                        gender: gender,
+                                        age: age,
+                                        physicalAssistance: physicalAssistance,
+                                        givePrescription: givePrescription,
+                                        scanID: scanID,
+                                        imageURL: url
+                                    )
+                                    messages.append(mes)
+                                    self.users = messages // Update users array after adding all doctors
                                     return
                                 }
-                                
+                                guard let url = url else {
+                                    print("Error: No URL for image")
+                                    // Create AllCasesUser object with imageURL
+                                    let mes = AllMessageFromDoctor(
+                                        userID: userID,
+                                        fullName: fullName,
+                                        gender: gender,
+                                        age: age,
+                                        physicalAssistance: physicalAssistance,
+                                        givePrescription: givePrescription,
+                                        scanID: scanID,
+                                        imageURL: url
+                                    )
+                                    messages.append(mes)
+                                    self.users = messages
+                                    return
+                                }
                                 // Create AllCasesUser object with imageURL
                                 let mes = AllMessageFromDoctor(
                                     userID: userID,
@@ -139,11 +112,12 @@ class AllMessagesFromDoctorViewModel: ObservableObject {
                                     age: age,
                                     physicalAssistance: physicalAssistance,
                                     givePrescription: givePrescription,
-                                    scanID: scanID, 
+                                    scanID: scanID,
                                     imageURL: url
                                 )
                                 
                                 messages.append(mes)
+                                self.users = messages
                                 
                                 // Check if all cases are fetched
                                 if messages.count == snapshot.childrenCount {
@@ -178,18 +152,6 @@ struct MessageView: View {
     var body: some View {
         NavigationStack {
             VStack {
-//                Picker(selection: $selectedSegment, label: Text("")) {
-//                    Text("Prescription").tag(0)
-//                    Text("Request").tag(1)
-//                }
-//                .pickerStyle(SegmentedPickerStyle())
-//                .padding([.leading, .trailing])
-//                .padding(.top, 10)
-//                .padding(.bottom, 10)
-                
-//                ScrollView {
-//                    switch selectedSegment {
-//                    case 0:
                         ForEach(viewModelDoctor.users.indices, id: \.self) { i in
                             NavigationLink {
                                 MessageSuggestionDoctorView(doctorDetails: viewModelDoctor.users[i])
@@ -198,23 +160,6 @@ struct MessageView: View {
                                     .padding(.top, 10)
                             }
                         }
-                       
-//                    case 1:
-//                        ForEach(viewModelPatient.users.indices, id: \.self) { i in
-//                            NavigationLink {
-//                                MessagePatientDetailsView(patientDetails: viewModelPatient.users[i])
-//                            } label: {
-//                                CustomMessagePatientBox(message: viewModelPatient.users[i])
-//                                    .padding(.top, 10)
-//                            }
-//                        }
-//                    
-//               
-//                       
-//                    default:
-//                        Text("Error")
-//                    }
-//                }
                 
                 Spacer()
                     

@@ -29,13 +29,13 @@ struct AllCasesUser: Hashable {
 class AllCasesViewModel: ObservableObject {
     @Published var users = [AllCasesUser]()
 
-    @Published var refreshData = false
+//    @Published var refreshData = false
 
     func updateCaseStatus(scanID: String) {
         if let userID = Auth.auth().currentUser?.uid {
             let databaseRef = Database.database().reference().child("patients/allCases/\(userID)/\(scanID)")
             databaseRef.updateChildValues(["status": "COMPLETE"])
-            self.refreshData.toggle()
+//            self.refreshData.toggle()
         }
     }
 

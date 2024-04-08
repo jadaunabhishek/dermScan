@@ -21,7 +21,7 @@ struct ScanView: View {
                         .frame(maxWidth: 360, alignment: .leading)
                         .padding(.top)
                         .padding(.bottom, 5)
-                        .navigationTitle("Scan")
+                        .navigationBarTitle("Scan")
                         .navigationBarItems(trailing:
                                                 NavigationLink(destination: ProfileCompletedView(), label: {
                             Image(systemName: "person.crop.circle")

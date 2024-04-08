@@ -89,8 +89,6 @@ struct DoctorProfileView: View {
                     .padding([.trailing, .leading])
                 }
                 
-                // Rest of the content...
-                
                 Spacer()
                 
                     Button(action: {
